@@ -1,62 +1,88 @@
 #include<stdio.h>
-int lsearch();
-int bsearch();
-
+int q[50];
+int rear =-1,front =-1;
+int dequeue();
+void enqueue();
+void display();
 int main()
 {
-    int arr[10],i,n,size;
-    int l=0;
-    printf("Enter size of the array:\n");
-    scanf("%d",&size);
-    int h = size-1;
-    printf("Enter elements of the array in sorted order:\n");
-    for(i = 0;i<size;i++)
+    int choice;
+    char repeat;
+    do
     {
-        scanf("%d",&arr[i]);
+        printf("||||||||||||||MENU DRIVEN PROGRAM||||||||||||||\n");
+        printf("PRESS KEY---------------------OPERATIONS\n");
+        printf("1-----------------------------Insertion\n");
+        printf("2-----------------------------Deletion\n");
+        printf("3-----------------------------Display All Elements;\n");
+        printf("4-----------------------------EXIT\n");
+        printf("Enter your choice : ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1:
+            enqueue();
+            break;
+        case 2:
+            dequeue();
+            break;
+        case 3:
+            display();
+            break;
+        case 4:
+            exit(0);
+            break;
+        default:
+            printf("\nInvalid Choice\n");
+        }
+        printf("Do you want to perform more operations on the stack(y/n) : ");
+        fflush(stdin);
+        scanf("%c",&repeat);
     }
-    printf("Enter element to be searched: ");
-    scanf("%d",&n);
-    printf("searched using recursive linear search\n");
-    int ans1 = lsearch(arr,size,n);
-    printf("%d is at the position %d\n",n,ans1);
-    printf("searched using recursive binary search\n");
-    int ans2 = bsearch(arr,0,h,n);
-    printf("%d is at the position %d\n",n,ans2);
-
+    while((repeat=='y')||(repeat=='Y'));
 
     return 0;
 }
-
-int lsearch(int arr[],int size, int n)
+void enqueue()
 {
-    if(arr[size]==n)
+    if(rear == 49)
     {
-        return size;
+        printf("stack overflow");
     }
-    return lsearch(arr,size-1,n);
-
-}
-
-int bsearch(int arr[],int l, int h, int n)
-{
-    int mid = (l+h)/2;
-    if(l<=h)
+    else
     {
-        if(arr[mid]==n)
+        rear++;
+        printf("enter the value\n");
+        scanf("%d",&q[rear]);
+        if(front==-1)
         {
-            return mid;
+            front = 0;
         }
-        else if(arr[mid]>n)
+    }
+}
+int dequeue()
+{
+    if(rear == -1)
+    {
+        printf("queue is empty");
+    }
+    else
+    {
+        front++;
+        return q[front-1];
+    }
+}
+void display()
+{
+    int i;
+    if(rear==-1)
+    {
+        printf("queue is empty");
+    }
+    else{
+        for(i = front ; i<=rear;i++)
         {
-            h = mid-1;
-            return bsearch(arr, l, h, n);
+            printf("%d",q[i]);
         }
-        else if(arr[mid]>n)
-        {
-            l = mid+1;
-            return bsearch(arr, l, h, n);
-        }
-        else
-            return -1;
     }
 }
